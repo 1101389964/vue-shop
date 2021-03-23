@@ -1,0 +1,65 @@
+{
+  "id": "",
+  "name": "",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "15838432",
+      "name": "browse",
+      "font_class": "browse",
+      "unicode": "e666",
+      "unicode_decimal": 58982
+    },
+    {
+      "icon_id": "15838464",
+      "name": "download",
+      "font_class": "download",
+      "unicode": "e66c",
+      "unicode_decimal": 58988
+    },
+    {
+      "icon_id": "15838465",
+      "name": "electronics",
+      "font_class": "electronics",
+      "unicode": "e66e",
+      "unicode_decimal": 58990
+    },
+    {
+      "icon_id": "15838497",
+      "name": "lock",
+      "font_class": "lock",
+      "unicode": "e676",
+      "unicode_decimal": 58998
+    },
+    {
+      "icon_id": "15838546",
+      "name": "unlock",
+      "font_class": "unlock",
+      "unicode": "e682",
+      "unicode_decimal": 59010
+    },
+    {
+      "icon_id": "15838547",
+      "name": "user",
+      "font_class": "user",
+      "unicode": "e683",
+      "unicode_decimal": 59011
+    },
+    {
+      "icon_id": "15838596",
+      "name": "history-filling",
+      "font_class": "history-filling",
+      "unicode": "e68a",
+      "unicode_decimal": 59018
+    },
+    {
+      "icon_id": "15838598",
+      "name": "file-common-filling",
+      "font_class": "file-common-filling",
+      "unicode": "e68b",
+      "unicode_decimal": 59019
+    }
+  ]
+}
