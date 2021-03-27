@@ -16,7 +16,7 @@
         <!-- 用户名 -->
         <el-form-item prop="username">
           <el-input
-            prefix-icon="iconfont icon-user"
+            prefix-icon="iconfont icon-bussiness-man"
             v-model="loginForm.username"
           ></el-input>
         </el-form-item>
@@ -93,7 +93,6 @@ export default {
   background-size: 120%;
   border: 3px solid #eee;
   box-shadow: 0 0 10px #ddd;
-
   border-radius: 15%;
   position: absolute;
   top: 50%;
