@@ -79,6 +79,7 @@
               type="info"
               icon="el-icon-setting"
               size="mini"
+              @click="SetRole(scope.row)"
             ></el-button>
           </el-tooltip>
         </template>
@@ -90,7 +91,7 @@
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page="querInfo.pagenum"
-      :page-sizes="[1, 2, 3, 4, 5]"
+      :page-sizes="[2, 4, 6, 8]"
       :page-size="querInfo.pagesize"
       layout="total, sizes, prev, pager, next, jumper"
       :total="total"
@@ -162,7 +163,30 @@
       </span>
     </el-dialog>
 
-    <!-- 删除对话框 -->
+    <!-- 分配角色对话框 -->
+    <el-dialog
+      title="分配角色"
+      :visible.sync="setRoledialogVisible"
+      width="50%"
+      @close="setRoleDialogClosed"
+    >
+      <div>
+        <p>当前的用户:{{ userInfo.username }}</p>
+        <p>当前的角色:{{ userInfo.role_name }}</p>
+        <p>分配新角色</p>
+        <el-select v-model="selectRoleId" placeholder="请选择">
+          <el-option
+            v-for="item in rolesList"
+            :key="item.id"
+            :label="item.roleName"
+            :value="item.id"
+          >
+          </el-option>
+        </el-select>
+      </div>
+      <el-button @click="setRoledialogVisible = false">取 消</el-button>
+      <el-button type="primary" @click="sendNewRole()">确 定</el-button>
+    </el-dialog>
   </div>
 </template>
 
@@ -194,7 +218,7 @@ export default {
         /* pagenum: 当前的页数*/
         pagenum: 1,
         /* pagesize当前每页显示多少条数据 */
-        pagesize: 2,
+        pagesize: 6,
       },
       userList: [], //存放用户的信息
       total: 0, //total为所有用户数量
@@ -237,6 +261,13 @@ export default {
           { validator: checkMobile, trigger: "blur" },
         ],
       },
+      //用户权限对话框
+      setRoledialogVisible: false,
+      userInfo: {},
+      //所有角色的数据列表
+      rolesList: [],
+      /* 保存所选角色 */
+      selectRoleId: "",
     };
   },
   created() {
@@ -249,6 +280,7 @@ export default {
         //res.meta.status不等于200，用户列表获取失败
         return this.$message.error("获取用户列表失败！");
       this.userList = res.data.users;
+      //console.log(this.userList);
       this.total = res.data.total;
     },
     /* 监听pagesize改变的事件 */
@@ -287,7 +319,7 @@ export default {
     /* 点击添加新用户 */
     addUser() {
       this.$refs.addFormRef.validate(async (valid) => {
-        console.log(valid);
+        //console.log(valid);
         if (!valid) return;
         const { data: res } = await this.$http.post("users", this.addForm);
         if (res.meta.status != 201) {
@@ -307,13 +339,13 @@ export default {
       if (res.meta.status != 200)
         return this.$message.error("查询用户信息失败");
       this.editForm = res.data;
-      console.log(this.editForm);
+      //console.log(this.editForm);
       this.editDialogVisible = true;
     },
     /* 修改用户信息并提交 */
     editUser() {
       this.$refs.editFormRef.validate(async (valid) => {
-        //console.log(valid);
+        console.log(valid);
         if (!valid) return;
         /* 发起数据请求 */
         const { data: res } = await this.$http.put(
@@ -361,6 +393,37 @@ export default {
       if (res.meta.status != 200) return this.$message.error("删除用户失败！");
       this.$message.success("删除用户成功！");
       this.getUserList();
+    },
+    async SetRole(row) {
+      console.log(row);
+      this.userInfo = row;
+      /* 在展示对话框之前获得所有列表 */
+      const { data: res } = await this.$http.get("roles");
+      if (res.meta.status != 200) {
+        return this.$message.error("角色获取失败");
+      }
+      this.rolesList = res.data;
+      this.setRoledialogVisible = true;
+    },
+    async sendNewRole() {
+      if (!this.selectRoleId) {
+        return this.$message.error("请选择要分配的角色!");
+      }
+      const { data: res } = await this.$http.put(
+        `users/${this.userInfo.id}/role`,
+        {
+          rid: this.selectRoleId,
+        }
+      );
+      if (res.meta.status != 200) return this.$message.error("更新角色失败！");
+      this.$message.success("分配角色成功!");
+      this.getUserList();
+      this.setRoledialogVisible = false;
+    },
+    /* 清空分配权限对话框 */
+    setRoleDialogClosed() {
+      this.selectRoleId = "";
+      this.userInfo = {};
     },
   },
 };
