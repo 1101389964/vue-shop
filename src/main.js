@@ -21,6 +21,19 @@ Vue.config.productionTip = false;
 
 Vue.component("tree-table", TreeTable);
 
+/* 过滤器 */
+Vue.filter("dateFormat", function(originVal) {
+  const dt = new Date(originVal);
+  const y = dt.getFullYear();
+  const m =
+    dt.getMonth() + 1 < 10 ? "0" + dt.getMonth() + 1 : dt.getMonth() + 1;
+  const d = dt.getDate() < 10 ? "0" + dt.getDate() : dt.getDate();
+  const h = dt.getHours() < 10 ? "0" + dt.getHours() : dt.getHours();
+  const mm = dt.getMinutes() < 10 ? "0" + dt.getMinutes() : dt.getMinutes();
+  const ss = dt.getSeconds() < 10 ? "0" + dt.getSeconds() : dt.getSeconds();
+  return `${y}-${m}-${d} ${h}:${mm}:${ss}`;
+});
+
 new Vue({
   router,
   render: (h) => h(App),
