@@ -20,3 +20,11 @@ body,
 .cell {
   text-align: center;
 }
+
+.el-checkbox {
+  margin: 0 10px 0 0 !important;
+}
+
+.ql-editor {
+  min-height: 300px;
+}

@@ -9,6 +9,10 @@ import "./assets/fonts/iconfont.css";
 /* 配置数据请求路径 */
 import axios from "axios";
 import TreeTable from "vue-table-with-tree-grid";
+import VueQuillEditor from "vue-quill-editor";
+import "quill/dist/quill.core.css"; // import styles
+import "quill/dist/quill.snow.css"; // for snow theme
+import "quill/dist/quill.bubble.css"; // for bubble theme
 
 axios.defaults.baseURL = "http://127.0.0.1:8888/api/private/v1/";
 axios.interceptors.request.use((config) => {
@@ -20,6 +24,7 @@ Vue.prototype.$http = axios;
 Vue.config.productionTip = false;
 
 Vue.component("tree-table", TreeTable);
+Vue.use(VueQuillEditor);
 
 /* 过滤器 */
 Vue.filter("dateFormat", function(originVal) {
